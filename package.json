@@ -1,4 +1,20 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "md-links.por-ahora",
+  "version": "0.0.1",
+  "description": "Módulo NPM para detectar links rotos en archivos Markdown",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Scarlett Burboa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ScarlettBurboa/SCL007-md-links/issues"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "lodash": "^4.17.11",
+    "markdown-link-extractor": "^1.2.0"
+  }
 }
