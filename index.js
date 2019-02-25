@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // FLUJO:
 // PASO 1: AVERIGUAR SOBRE: NODEJS
 // PASO 2: LEER TODAS LAS REFERENCIAS DEL README
@@ -24,15 +26,11 @@
 // PASO 16: SI EL CLIENTE INGRESA EN CONSOLA: NODE INDEX.JS ./README.md --STATS
 // PASO 17: REALIZA UNA CUENTA DE TODOS LOS LINKS, POR EJEMPLO : 18 DE LOS CUALES 10 ESTAN OK Y  8 ESTAN ROTOS. Y QUE ARROJE LOS QUE ESTAN ROTOS. 
 
-const promises = require('./promises');
-
-let pathUrl = process.argv[2];
-let option = process.argv[3];
+/* let pathUrl = process.argv[2];
+let option = process.argv[3]; */
 
 /* promises.mdlinks(pathUrl, option).then((resultado) => {
   console.log(resultado);
 }, (error)=>{
   console.log(error);
 }); */
-
-

@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Módulo NPM para detectar links rotos en archivos Markdown",
   "main": "index.js",
+  "bin": {
+    "mdlinks": "index.js"
+  },
   "repository": {
     "type": "git",
     "url": ""
@@ -15,6 +18,8 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "lodash": "^4.17.11",
-    "markdown-link-extractor": "^1.2.0"
+    "log-symbols": "^2.2.0",
+    "markdown-link-extractor": "^1.2.0",
+    "node-fetch": "^2.3.0"
   }
 }
