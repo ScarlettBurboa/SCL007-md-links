@@ -48,7 +48,7 @@ Tópicos: [Node.js](https://nodejs.org/en/),
 [http.get](https://nodejs.org/api/http.html#http_http_get_options_callback),
 parsing,
 [markdown](https://daringfireball.net/projects/markdown/syntax), CLI,
-[npm-scripts](https://docs.npmjs.com/misc/scripts),
+[npm-scripts](https://www.google.com/holacomoestas),
 [semver](https://semver.org/), ...
 
 ## Consideraciones generales
