@@ -39,12 +39,12 @@ let readFileAndExtract = (pathUrl) =>{
         return links  //agrega un else       
       }else{
         const emptyArray = [];
-        return emptyArray;
-        console.log('El archivo ingresado no es de extención .md, favor ingresar otro archivo. Saludos! :)')
+        console.log('El archivo ingresado no es de extención .md, favor ingresar otro archivo. Saludos! :)');
+        return emptyArray;     
       }
 };
 
-let result = () =>{
+let resultWithOption = () =>{
 let result = readFileAndExtract(pathUrl);
     result.forEach(function (link) {
       console.log(`${chalk.bold(link.text)} : (${chalk.blue(link.href)})`);
@@ -52,36 +52,49 @@ let result = readFileAndExtract(pathUrl);
 }
 
 let checkStatusLinks = () =>{ 
-let arrayValidate = [];
 let validate = readFileAndExtract(pathUrl);
-let validateFor = validate.map(function(element){ 
+validate.map(function(element){ 
   fetch(element.href).then(res =>{
-    if(res.status === 200){
-      console.log(chalk.green(`- ${element.href} // ${res.status} ${res.statusText}`));
+    if(res.status === 200){      
+      console.log((`- ${element.href} `), chalk.green.bold(`// ✓ ${res.status} ${res.statusText}`));
     }else if(res.status === 404){
-      console.log(chalk.red(`- ${element.href} // ${res.status} ${res.statusText}`));
+      console.log((`- ${element.href} `), chalk.red.bold(`// X ${res.status} ${res.statusText}`));
     } 
   }).catch(err =>{
-      console.log(chalk.magenta(`- ${element.href} // Certificado no Definido`));
+      console.log((`- ${element.href} `), chalk.blue.bold(`// ✓ link OK, pero no se encuentra certificado`));
   });
 });
 }
-let checkStatsLinks = () =>{
+
+let checkStatsLinks = async () =>{
+  let validateStats = readFileAndExtract(pathUrl);
+  let arrayStats = [];
   let unique = 0;
   let broken = 0;
-  let total = '';
+  await Promise.all(validateStats.map(async function(element){ 
+    await fetch(element.href).then(res =>{
+      arrayStats.push(element);
+      if(res.status === 200){unique++;} else if(res.status === 404){broken++; } 
+    }).catch(err =>{
+        unique++;
+    });
+  }));
+  console.log(`- Unique : ${unique}`);
+  console.log(`- Broken: ${broken}`);
+  console.log(`- Total : ${unique + broken}`);
 }
+
 let mdlinks = (pathUrl, option, optionNext) => {
   return new Promise((res, rej) =>{
       if(option === undefined){
-          res(result());         
+          res(resultWithOption());         
       }else if(option === '--validate' || option === '--v'){
           res(checkStatusLinks());
       }else if(option === '--stats' || option === '--s'){
-          res(console.log('soy la opción --stats'));
-      }else if(option === '--validate' && optionNext === '--stats'){
+          res(checkStatsLinks());
+      }else if(option === '--stats' && optionNext === '--validate'){
           res(console.log('soy la opción --validate and --stats'));
-      }else if(option === '--v' && optionNext === '--s'){
+      }else if(option === '--s' && optionNext === '--v'){
           res(console.log('soy la opción --validate and --stats'));
       }else{
           rej(error);
@@ -94,56 +107,3 @@ mdlinks(pathUrl, option, optionNext).then((response) => {
 }, (error) =>{
    console.log(error);
 });
-// if(require == module){ console.log(comprar si es el primer modulo, solo el primer modulo dara true los demas no)}
-/* let checkStatus = (linksArray) => {
-    let arrayLinksLength = linksArray.length;
-    const options = {};
-    console.log(options);
-    if (validate === undefined) {
-      options.validate = false;
-    } else if (validate.indexOf('--validate') !== -1) {
-      options.validate = true;
-    }
-    if (stats === undefined) {
-      options.stats = false;
-    } else if (stats.indexOf('--stats') !== -1) {
-      options.stats = true;
-    }
-    let unique = 0;
-    let broken = 0;
-    let total = linksArray.length;
-  
-    linksArray.forEach(link => {
-      fetch(link.href).then(response => {
-          arrayLinksLength--;
-          let result = '';
-          link.status = response.status;
-          if (options.validate) {
-            if (link.status === 200) {
-              result = `Nombre: ${link.text} :  ${link.href} // Status: ${(link.status)} ${(.success)}`;
-            } else {
-              result = `Nombre: ${link.text} : ${link.href} // Status: ${(link.status)} ${(.error)}`;
-            }
-          } else {
-            result = `Nombre: ${link.text} :  ${link.href}`;
-          }
-          if (options.stats) {
-            if (link.status === 200) {
-              unique++;
-            } else {
-              broken++;
-            }
-          }
-          console.log(result);
-          if (options.stats) {
-            if (arrayLinksLength === 0) {
-              console.log(`${('STATS: Unique ->')} ${(unique)} \n ${('Broken ->')} ${(broken)}`);
-            }
-          }
-        }).catch(error => {
-          console.log(error);
-        });
-    });
-  };
-//  checkStatus(links, pathUrl);
-  */
