@@ -39,12 +39,14 @@ const markdownLinkExtractor = (markdown, lineNumber) =>{
 
 let readDirectoryOrFileAndExtract = (pathUrl) =>{
     let urlAbsoluteResolved = path.resolve(pathUrl);
+    let extension = path.extname(urlAbsoluteResolved);
      if (fs.lstatSync(urlAbsoluteResolved).isDirectory() === true){
-      /* console.log("soy una carpeta"); */
-      fs.readdirSync(urlAbsoluteResolved).forEach(file => {
-/*         console.log(file);  */
+       fs.readdirSync(urlAbsoluteResolved).forEach(file => {
         if (fs.lstatSync(urlAbsoluteResolved + "/" + file).isDirectory() === true || path.extname(urlAbsoluteResolved + "/" + file) === ".md"){
           readDirectoryOrFileAndExtract(urlAbsoluteResolved + "/" + file); 
+          var markdownRead = fs.readFileSync(urlAbsoluteResolved).toString().split('\n');
+          var links = markdownRead.reduce((init, element, index) => init.concat(markdownLinkExtractor(element, index + 1)),[]); 
+          return links; 
         }else {
           const emptyArray = [];
           console.log(chalk.magenta('Ups encontramos un error \n - El archivo ingresado no es de extención .md, favor ingresar otro archivo \n - El directorio que ingresaste no contiene archivos con extensión .md \n - Saludos!!! :)'));
@@ -69,14 +71,14 @@ result.map(function (link) {
 let checkStatusLinks = () =>{ 
 let validate = readDirectoryOrFileAndExtract(pathUrl);
 validate.map(function(element){ 
-  fetch(element.href).then(res =>{
-    if(res.status === 200){      
-      console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.green.bold(`// ✓ ${res.status} ${res.statusText}`));
-    }else if(res.status === 404){
-      console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.red.bold(`// X ${res.status} ${res.statusText}`));
+  fetch(element.href).then(response =>{
+    if(response.ok === true){      
+      console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.green.bold(`// ✓ ${response.status} ${response.statusText}`));
+    }else if(response.ok === false){
+      console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.red.bold(`// X ${response.status} ${response.statusText}`));
     } 
   }).catch(err =>{
-      console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.blue.bold(`// ✓ link OK, pero no se encuentra certificado`));
+     console.log(err);
   });
 });
 }
@@ -87,11 +89,11 @@ let checkStatsLinks = async () =>{
   let unique = 0;
   let broken = 0;
   await Promise.all(validateStats.map(async function(element){ 
-    await fetch(element.href).then(res =>{
+    await fetch(element.href).then(response =>{
       arrayStats.push(element);
-      if(res.status === 200){unique++;} else if(res.status === 404){broken++; } 
+      if(response.ok === true){unique++;} else{broken++; } 
     }).catch(err =>{
-        unique++;
+        console.log(err);
     });
   }));
   console.log(`- Unique : ${chalk.green(unique)}`);
