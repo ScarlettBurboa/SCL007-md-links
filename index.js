@@ -1,5 +1,11 @@
 #!/usr/bin/env node
+/* let link = require('./promises');
 
+promises.mdlinks(pathUrl, option, optionNext).then((resultado) => {
+  console.log(resultado);
+}, (error)=>{
+  console.log(error);
+}); */
 // FLUJO:
 // PASO 1: AVERIGUAR SOBRE: NODEJS
 // PASO 2: LEER TODAS LAS REFERENCIAS DEL README
@@ -29,8 +35,4 @@
 /* let pathUrl = process.argv[2];
 let option = process.argv[3]; */
 
-/* promises.mdlinks(pathUrl, option).then((resultado) => {
-  console.log(resultado);
-}, (error)=>{
-  console.log(error);
-}); */
+

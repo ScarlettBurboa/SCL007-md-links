@@ -1,10 +1,13 @@
 {
-  "name": "md-links.por-ahora",
+  "name": "linkin",
   "version": "0.0.1",
-  "description": "Módulo NPM para detectar links rotos en archivos Markdown",
+  "description": "Módulo NPM para detectar links y estados de esos links en archivos Markdown",
   "main": "index.js",
   "bin": {
-    "mdlinks": "index.js"
+    "linkin": "./index.js"
+  },
+  "scripts":{
+    
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "lodash": "^4.17.11",
     "markdown-link-extractor": "^1.2.0",
     "node-fetch": "^2.3.0"
   }
