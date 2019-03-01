@@ -12,3 +12,4 @@ if(require.main === module){
      console.log(error);
   });
 }
+module.exports.mdlinks = mdlinks; 

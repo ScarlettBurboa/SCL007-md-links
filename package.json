@@ -2,6 +2,7 @@
   "name": "mdlinks",
   "version": "0.0.1",
   "description": "Módulo NPM para detectar links y estados de esos links en archivos Markdown",
+  "preferGlobal": "true",
   "main": "index.js",
   "bin": {
     "mdlinks": "./index.js"
