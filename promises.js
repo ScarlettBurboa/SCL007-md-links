@@ -101,5 +101,4 @@ let mdlinks = (pathUrl, option, optionNext) => {
         }
   });         
 }
-
 module.exports.mdlinks = mdlinks;

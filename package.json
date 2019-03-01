@@ -1,20 +1,17 @@
 {
-  "name": "linkin",
+  "name": "mdlinks",
   "version": "0.0.1",
   "description": "Módulo NPM para detectar links y estados de esos links en archivos Markdown",
   "main": "index.js",
   "bin": {
     "mdlinks": "./index.js"
   },
-  "scripts":{
-    
-  },
-  "repository": {
+   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/ScarlettBurboa/SCL007-md-links/blob/master/package.json"
   },
   "author": "Scarlett Burboa",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/ScarlettBurboa/SCL007-md-links/issues"
   },
