@@ -79,9 +79,9 @@ let checkStatsLinks = async () =>{
   await Promise.all(validateStats.map(async function(element){ 
     await fetch(element.href).then(response =>{
       arrayStats.push(element);
-      if(response.ok === true){unique++;} else{broken++; } 
+      if(response.ok === true){unique++;}else if(response.code === 'ENOTFOUND'){broken++} else{broken++; } 
     }).catch(err =>{
-        console.log(err);
+      broken++;
     });
   }));
   console.log(`- Unique : ${chalk.green(unique)}`);

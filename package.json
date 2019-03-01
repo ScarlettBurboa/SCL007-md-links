@@ -7,7 +7,7 @@
   "bin": {
     "mdlinks": "./index.js"
   },
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/ScarlettBurboa/SCL007-md-links/blob/master/package.json"
   },
@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "lodash": "^4.17.11",
     "markdown-link-extractor": "^1.2.0",
     "node-fetch": "^2.3.0"
   }
