@@ -4,7 +4,7 @@
   "description": "Módulo NPM para detectar links y estados de esos links en archivos Markdown",
   "main": "index.js",
   "bin": {
-    "linkin": "./index.js"
+    "mdlinks": "./index.js"
   },
   "scripts":{
     

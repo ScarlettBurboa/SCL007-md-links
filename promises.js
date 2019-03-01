@@ -36,14 +36,10 @@ const markdownLinkExtractor = (markdown, lineNumber) =>{
   marked(markdown, {renderer: renderer});
     return links;   
 }; 
-
 let readDirectoryOrFileAndExtract = (pathUrl) =>{
     let urlAbsoluteResolved = path.resolve(pathUrl);
     let extension = path.extname(urlAbsoluteResolved);
-     if (fs.lstatSync(urlAbsoluteResolved).isDirectory() === true){
-       fs.readdirSync(urlAbsoluteResolved).forEach(file => {
-        if (fs.lstatSync(urlAbsoluteResolved + "/" + file).isDirectory() === true || path.extname(urlAbsoluteResolved + "/" + file) === ".md"){
-          readDirectoryOrFileAndExtract(urlAbsoluteResolved + "/" + file); 
+        if (extension === ".md"){
           var markdownRead = fs.readFileSync(urlAbsoluteResolved).toString().split('\n');
           var links = markdownRead.reduce((init, element, index) => init.concat(markdownLinkExtractor(element, index + 1)),[]); 
           return links; 
@@ -51,23 +47,14 @@ let readDirectoryOrFileAndExtract = (pathUrl) =>{
           const emptyArray = [];
           console.log(chalk.magenta('Ups encontramos un error \n - El archivo ingresado no es de extención .md, favor ingresar otro archivo \n - El directorio que ingresaste no contiene archivos con extensión .md \n - Saludos!!! :)'));
           return emptyArray;
-        }
-      }); 
-    } else if (fs.lstatSync(urlAbsoluteResolved).isFile() === true && path.extname(urlAbsoluteResolved) === ".md"){
-        var markdownRead = fs.readFileSync(urlAbsoluteResolved).toString().split('\n');
-        var links = markdownRead.reduce((init, element, index) => init.concat(markdownLinkExtractor(element, index + 1)),[]); 
-        return links; 
-        
-    }
+        }      
 };
-
 let resultWithOption = () =>{
 let result = readDirectoryOrFileAndExtract(pathUrl);
 result.map(function (link) {
          console.log(`- Línea: ${chalk.blue(link.line)} - ${chalk.bold(link.text)} : ${chalk.green(link.href)}`);
     });  
 }
-
 let checkStatusLinks = () =>{ 
 let validate = readDirectoryOrFileAndExtract(pathUrl);
 validate.map(function(element){ 
@@ -76,13 +63,14 @@ validate.map(function(element){
       console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.green.bold(`// ✓ ${response.status} ${response.statusText}`));
     }else if(response.ok === false){
       console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.red.bold(`// X ${response.status} ${response.statusText}`));
-    } 
+    } else{
+      
+    }
   }).catch(err =>{
-     console.log(err);
+    console.log((`- Línea: ${chalk.blue(element.line)} - ${element.href} `), chalk.magenta.bold(`// CERTIFICADO EXPIRADO`));
   });
 });
 }
-
 let checkStatsLinks = async () =>{
   let validateStats = readDirectoryOrFileAndExtract(pathUrl);
   let arrayStats = [];
@@ -100,7 +88,6 @@ let checkStatsLinks = async () =>{
   console.log(`- Broken: ${chalk.red(broken)}`);
   console.log(`- Total : ${chalk.yellow(unique + broken)}`);
 }
-
 let mdlinks = (pathUrl, option, optionNext) => {
   return new Promise((res, rej) =>{
       if(option === undefined){
@@ -114,8 +101,5 @@ let mdlinks = (pathUrl, option, optionNext) => {
         }
   });         
 }
-mdlinks(pathUrl, option, optionNext).then((response) => {
-  console.log(response); 
-}, (error) =>{
-   console.log(error);
-});
+
+module.exports.mdlinks = mdlinks;
